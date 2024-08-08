@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <CustomLevel name="SIEM" intLevel="350"/>
+    <Appenders>
+        <RollingFile name="LogToFile">
+            <FileName>./logs/cohorts.log</FileName>
+            <FilePattern>./logs/time-based-cohorts-logs/%d{yyyy-MM-dd}.log.zip</FilePattern>
+            <ThresholdFilter level="WARN"/>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="logs/time-based-cohorts-logs/" maxDepth="1">
+                    <IfFileName glob="*.log.zip"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="LogToFile2">
+            <FileName>./logs/cohorts_SIEM.log</FileName>
+            <FilePattern>./logs/time-based-SIEM-logs/%d{yyyy-MM-dd}.log.zip</FilePattern>
+            <ThresholdFilter level="TRACE"/>
+            <PatternLayout>
+                <Pattern>%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="logs/time-based-SIEM-logs/" maxDepth="1">
+                    <IfFileName glob="*.log.zip"/>
+                    <IfLastModified age="7d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="LogToFile"/>
+            <AppenderRef ref="LogToFile2"/>
+        </Root>
+    </Loggers>
+</Configuration>
